@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { RiAccountPinCircleFill } from "react-icons/ri";
-import { Button, Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "./CreateMail.css";
 
 import ReactQuill from "react-quill";
@@ -69,7 +69,8 @@ const CreateMail = () => {
 
 
   return (
-    <Container className="container">
+    <div className="container">
+      <h1 className="heading">Write a Mail</h1>
       <p className="top-para">
         <span>To</span>
         <span className="detail">
@@ -83,7 +84,8 @@ const CreateMail = () => {
       <input className="title" type="text" placeholder="Title" onChange={titleHandler} value={title}/>
 
       <ReactQuill
-        style={{ height: "400px" }} // Set the desired height here
+   
+    style={{ height: "350px" ,  width: "70vw"  }} // Set the desired height here
         theme="snow"
         value={content}
         onChange={(value) => setContent(value)}
@@ -94,7 +96,7 @@ const CreateMail = () => {
       <Button variant="primary" size="sm" className="btn" onClick={sendHandler}>
         Send
       </Button>
-    </Container>
+    </div>
   );
 };
 
