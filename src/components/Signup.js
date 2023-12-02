@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import useMailAPI from "../custom_hooks/useMailAPI";
 const Signup = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const {signup} = useMailAPI();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -24,28 +25,19 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await axios({
-      method: "post",
-      url: "http://localhost:5000/signup",
-      data: {
-        name: name,
-        email: email,
-        password: password,
-      },
-    });
+    const response =  await signup(name,email,password);
 
-    if (response.data.success) {
+    console.log(response);
+
+    if (response.success) {
       alert("welcome , lets login now");
       navigate('/login');
     } else {
       alert("OOPs , user already exists , please login");
     }
-
     setEmail("");
     setPassword("");
     setName("");
-
-
   };
 
   return (

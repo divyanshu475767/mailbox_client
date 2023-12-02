@@ -35,10 +35,9 @@ function App() {
           {token && <Route path="/newMail" element={<CreateMail/>} />}
           {token && <Route path="/mail/:id" element={<DetailedMail/>} />}
           {token && <Route path="/sentMails" element={<SentEmailList/>} />}
-        
 
 
-         
+          <Route path="/*" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     </div>

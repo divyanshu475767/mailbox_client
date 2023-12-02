@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import ReceivedEmail from './RecievedMail';
 import './ReceivedMailList.css';
-import axios from 'axios';
 import { useSelector , useDispatch } from "react-redux";
 import  {inboxActions} from '../store/inbox-slice';
+import useMailAPI from '../custom_hooks/useMailAPI';
 
 
 
 const SentEmailList = () => {
 
     const dispatch = useDispatch();
+
+    const {getSentMails} = useMailAPI();
 
 
     const token = useSelector(state=>state.auth.token)
@@ -18,13 +20,9 @@ const SentEmailList = () => {
 
    
     useEffect(()=>{
-      axios({
-        method: "get",
-        url: "http://localhost:5000/sentMails",
-        headers:{Authorization:token}  
-      })
+      getSentMails(token)
       .then(response=>{
-       dispatch(inboxActions.sentMails(response.data));
+       dispatch(inboxActions.sentMails(response));
         console.log(response.data)
       })
       .catch(error=>{
