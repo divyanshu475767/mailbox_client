@@ -1,10 +1,12 @@
 import React from 'react';
 import './Sidebar.css';
 import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 const Sidebar = () => {
 
   
-
+  const unreadMessages = useSelector(state=>state.inbox.unreadMessages)
 
   return (
 
@@ -12,7 +14,7 @@ const Sidebar = () => {
     <aside className="sidebar">
       <nav className="nav">
         <ul>
-          <li ><NavLink to="/">My Mails</NavLink></li>
+          <li ><NavLink to="/">My Mails ({unreadMessages})</NavLink></li>
           <li >
             <NavLink to='/sentMails' >Sent mails</NavLink></li>
           <li ><NavLink to='/newMail'>New mails</NavLink></li>

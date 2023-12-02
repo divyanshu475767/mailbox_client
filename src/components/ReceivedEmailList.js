@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReceivedEmail from './RecievedMail';
 import './ReceivedMailList.css';
 import axios from 'axios';
-import { useSelector } from "react-redux";
+import { useSelector , useDispatch } from "react-redux";
+import  {inboxActions} from '../store/inbox-slice';
+
 
 
 const ReceivedEmailList = () => {
 
+    const dispatch = useDispatch();
+
+    const inbox = useSelector(state=>state.inbox.receivedMails);
 
     const token = useSelector(state=>state.auth.token)
 
-   const [receivedMails , setReceivedMails] =   useState([]);
-
+   
     useEffect(()=>{
       axios({
         method: "get",
@@ -19,26 +23,28 @@ const ReceivedEmailList = () => {
         headers:{Authorization:token}  
       })
       .then(response=>{
-        setReceivedMails(response.data);
-        console.log(response.data);
-
+        dispatch(inboxActions.fetchMails(response.data));
+        console.log(response.data)
       })
       .catch(error=>{
         console.log(error)
         
       })
-    },[token])
+    },[token,dispatch])
 
 
   return (
     <div className='inbox'>
       <h1 className='heading'>Your Inbox</h1>
 
-      {receivedMails.map(mail=>{
+      {inbox.map(mail=>{
        return <ReceivedEmail
-        sender={mail.senderName}
-        subject={mail.title}
-        content={mail.content}
+       key={mail.id}
+       id={mail.id}
+       sender={mail.senderName}
+       subject={mail.title}
+       content={mail.content}
+       isRead={mail.isRead}
       />
       })
       }

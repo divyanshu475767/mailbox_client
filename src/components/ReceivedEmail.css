@@ -28,7 +28,7 @@
     flex-basis: 10%; /* Or use width: 10%; */
   }
   
-  .subject {
+  .subjectMinor {
     color: #333;
     margin-top: 5px;
     position: relative;
@@ -46,3 +46,11 @@
     flex-basis: 60%; /* Or simply let it take remaining space */
   }
   
+
+  .isRead{
+    height: 10px;
+    width: 10px;
+    background-color: rgb(67, 65, 65);
+    margin-left: 20px;
+    border-radius: 50%;
+  }

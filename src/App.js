@@ -12,6 +12,7 @@ import CreateMail from "./components/CreateMail";
 import Sidebar from "./components/Sidebar";
 import './App.css'
 import ReceivedEmailList from "./components/ReceivedEmailList";
+import DetailedMail from "./components/DetailedMail";
 
 
 
@@ -35,6 +36,7 @@ function App() {
 
           {token && <Route path="/" element={<ReceivedEmailList/>} />}
           {token && <Route path="/newMail" element={<CreateMail/>} />}
+          {token && <Route path="/mail/:id" element={<DetailedMail/>} />}
 
           <Route path="/*" element={<Navigate to="/login" />} />
         </Routes>
