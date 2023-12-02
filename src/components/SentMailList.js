@@ -47,6 +47,7 @@ const SentEmailList = () => {
        content={mail.content}
        isRead={mail.isRead}
        isShown={false}
+       canUpdateStatus = {false}
       />
       })
       }

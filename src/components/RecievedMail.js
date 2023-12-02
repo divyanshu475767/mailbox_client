@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import  {inboxActions} from '../store/inbox-slice';
 
-const ReceivedEmail = ({id, sender, subject, content,isRead , isShown }) => {
+const ReceivedEmail = ({id, sender, subject, content,isRead , isShown  , canUpdateStatus}) => {
 
   const dispatch = useDispatch();
    const token = useSelector(state=>state.auth.token);
@@ -23,6 +23,9 @@ const ReceivedEmail = ({id, sender, subject, content,isRead , isShown }) => {
 
 
   const updateStatusHandler =async ()=>{
+
+
+    if(canUpdateStatus){
     const response = await axios({
       method: "put",
       url: "http://localhost:5000/updateReadStatus",
@@ -30,7 +33,12 @@ const ReceivedEmail = ({id, sender, subject, content,isRead , isShown }) => {
       headers:{Authorization:token}
     });
 
+    
     console.log(response.data);
+    alert(response.data);
+
+  }
+
 
   }
 
@@ -55,11 +63,11 @@ const ReceivedEmail = ({id, sender, subject, content,isRead , isShown }) => {
     
     <div className="email" onClick={updateStatusHandler}>
      
-      
-    {!isRead && <span className='isRead'></span>}
     
-
     
+    {
+      isShown && !isRead && <span className='isRead'></span>
+    }
       <div className="sender">{sender}</div>
       <div className="subjectMinor">{subject}</div>
       <div className="content" dangerouslySetInnerHTML={{ __html: previewContent }} />

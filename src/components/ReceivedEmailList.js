@@ -16,22 +16,47 @@ const ReceivedEmailList = () => {
     const token = useSelector(state=>state.auth.token)
 
    
-    useEffect(()=>{
-      axios({
-        method: "get",
-        url: "http://localhost:5000/receivedMails",
-        headers:{Authorization:token}  
-      })
-      .then(response=>{
-        dispatch(inboxActions.fetchMails(response.data));
-        console.log(response.data)
-      })
-      .catch(error=>{
-        console.log(error)
+    // useEffect(()=>{
+    //   axios({
+    //     method: "get",
+    //     url: "http://localhost:5000/receivedMails",
+    //     headers:{Authorization:token}  
+    //   })
+    //   .then(response=>{
+    //     dispatch(inboxActions.fetchMails(response.data));
+    //     console.log(response.data)
+    //   })
+    //   .catch(error=>{
+    //     console.log(error)
         
-      })
-    },[token,dispatch])
+    //   })
+    // },[token,dispatch])
 
+    useEffect(() => {
+      const fetchData = () => {
+        axios({
+          method: 'get',
+          url: 'http://localhost:5000/receivedMails',
+          headers: { Authorization: token }
+        })
+          .then(response => {
+            dispatch(inboxActions.fetchMails(response.data));
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      };
+  
+      // Fetch data initially when component mounts
+      fetchData();
+  
+      // Fetch data every 2 seconds
+      const interval = setInterval(fetchData, 2000);
+  
+      // Clean up the interval to prevent memory leaks
+      return () => clearInterval(interval);
+    }, [token, dispatch]);
 
   return (
     <div className='inbox'>
@@ -46,6 +71,7 @@ const ReceivedEmailList = () => {
        content={mail.content}
        isRead={mail.isRead}
        isShown={true}
+       canUpdateStatus = {true}
       />
       })
       }
