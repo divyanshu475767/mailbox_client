@@ -93,7 +93,7 @@ const CreateMail = () => {
         formats={formats}
       />
 
-      <Button variant="primary" size="sm" className="btn" onClick={sendHandler}>
+      <Button variant="primary" size="sm" className="btnn" onClick={sendHandler}>
         Send
       </Button>
     </div>

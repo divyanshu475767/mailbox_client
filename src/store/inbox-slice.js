@@ -9,12 +9,13 @@ const inboxSlice = createSlice({
   reducers: {
      fetchMails(state,action){
         state.receivedMails = action.payload;
-
-
-
       const unreadMessages=  action.payload.filter(mail=>mail.isRead==false)
      
       state.unreadMessages = unreadMessages.length;
+   },
+
+   deleteMail(state,action){
+      state.receivedMails = state.receivedMails.filter(mail=>mail.id!==action.payload);
    }
   },
 });

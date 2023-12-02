@@ -2,10 +2,14 @@ import React from 'react';
 import DOMPurify from 'dompurify'; // Import DOMPurify for HTML sanitization
 import './ReceivedEmail.css';
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector , useDispatch } from 'react-redux';
 import axios from 'axios';
+import { Button } from 'react-bootstrap';
+import  {inboxActions} from '../store/inbox-slice';
+
 const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
 
+  const dispatch = useDispatch();
    const token = useSelector(state=>state.auth.token);
 
   // Function to sanitize HTML content and extract text for preview
@@ -30,8 +34,23 @@ const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
 
     alert(response.data);
   }
+
+
+  const deleteHandler =async ()=>{
+     await axios({
+      method: "delete",
+      url: "http://localhost:5000/deleteMail",
+      data: {mailId:id},
+      headers:{Authorization:token}
+    });
+
+   dispatch(inboxActions.deleteMail(id));
+
+      
+  }
   return (
-    <NavLink to={`mail/${id}`} style={{textDecoration:"none"}}>
+    <>
+    <NavLink to={`mail/${id}`} style={{textDecoration:"none"}} className='navvv'>
     
     <div className="email" onClick={updateStatusHandler}>
     {!isRead && <span className='isRead'></span>}
@@ -39,8 +58,14 @@ const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
       <div className="sender">{sender}</div>
       <div className="subjectMinor">{subject}</div>
       <div className="content" dangerouslySetInnerHTML={{ __html: previewContent }} />
+    
     </div>
+   
+      
     </NavLink>
+    <Button onClick={deleteHandler} className='btn btn-danger'>delete</Button>
+    </>
+    
   );
 };
 
