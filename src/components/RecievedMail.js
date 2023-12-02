@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import  {inboxActions} from '../store/inbox-slice';
 
-const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
+const ReceivedEmail = ({id, sender, subject, content,isRead , isShown }) => {
 
   const dispatch = useDispatch();
    const token = useSelector(state=>state.auth.token);
@@ -32,7 +32,6 @@ const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
 
     console.log(response.data);
 
-    alert(response.data);
   }
 
 
@@ -45,15 +44,21 @@ const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
     });
 
    dispatch(inboxActions.deleteMail(id));
-
-      
   }
+
+
+
+
   return (
     <>
-    <NavLink to={`mail/${id}`} style={{textDecoration:"none"}} className='navvv'>
+    <NavLink to={`/mail/${id}`} style={{textDecoration:"none"}} className='navvv' exact>
     
     <div className="email" onClick={updateStatusHandler}>
+     
+      
     {!isRead && <span className='isRead'></span>}
+    
+
     
       <div className="sender">{sender}</div>
       <div className="subjectMinor">{subject}</div>
@@ -63,7 +68,9 @@ const ReceivedEmail = ({id, sender, subject, content,isRead }) => {
    
       
     </NavLink>
+    {isShown && 
     <Button onClick={deleteHandler} className='btn btn-danger'>delete</Button>
+}
     </>
     
   );

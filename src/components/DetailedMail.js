@@ -11,10 +11,16 @@ const DetailedMail = () => {
 
     const inbox = useSelector(state=>state.inbox.receivedMails);
 
+    const sentMails = useSelector(state=>state.inbox.sentMails);
+
     const mailId= params.id;
 
 
-    const particular_mail = inbox.find(mail=>mail.id==mailId)
+  let  particular_mail = inbox.find(mail=>mail.id==mailId)
+
+    if(!particular_mail){
+      particular_mail=  sentMails.find(mail=>mail.id==mailId)
+    }
     
     console.log(particular_mail);
 
@@ -37,7 +43,7 @@ const DetailedMail = () => {
           <div className="subject">{particular_mail.title}</div>
           <div className="sender">by:  {particular_mail.senderName}</div>
         </div>
-        <div className="content" dangerouslySetInnerHTML={{ __html: previewContent }}/>
+        <div className="content-inner" dangerouslySetInnerHTML={{ __html: previewContent }}/>
       </div>
 
   

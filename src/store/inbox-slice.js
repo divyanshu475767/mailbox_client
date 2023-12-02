@@ -4,6 +4,7 @@ const inboxSlice = createSlice({
   name: "inbox",
   initialState: { 
    receivedMails:[],
+   sentMails:[],
    unreadMessages:0
  },
   reducers: {
@@ -16,6 +17,10 @@ const inboxSlice = createSlice({
 
    deleteMail(state,action){
       state.receivedMails = state.receivedMails.filter(mail=>mail.id!==action.payload);
+   },
+
+   sentMails(state,action){
+      state.sentMails = action.payload;
    }
   },
 });

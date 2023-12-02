@@ -7,23 +7,24 @@ import  {inboxActions} from '../store/inbox-slice';
 
 
 
-const ReceivedEmailList = () => {
+const SentEmailList = () => {
 
     const dispatch = useDispatch();
 
-    const inbox = useSelector(state=>state.inbox.receivedMails);
 
     const token = useSelector(state=>state.auth.token)
+    
+    const sentMails = useSelector(state=>state.inbox.sentMails);
 
    
     useEffect(()=>{
       axios({
         method: "get",
-        url: "http://localhost:5000/receivedMails",
+        url: "http://localhost:5000/sentMails",
         headers:{Authorization:token}  
       })
       .then(response=>{
-        dispatch(inboxActions.fetchMails(response.data));
+       dispatch(inboxActions.sentMails(response.data));
         console.log(response.data)
       })
       .catch(error=>{
@@ -35,26 +36,22 @@ const ReceivedEmailList = () => {
 
   return (
     <div className='inbox'>
-      <h1 className='heading'>Your Inbox</h1>
+      <h1 className='heading'>Your Sent Mails</h1>
 
-      {inbox.map(mail=>{
+      {sentMails.map(mail=>{
        return <ReceivedEmail
        key={mail.id}
        id={mail.id}
-       sender={mail.senderName}
+       sender={mail.receiver}
        subject={mail.title}
        content={mail.content}
        isRead={mail.isRead}
-       isShown={true}
+       isShown={false}
       />
       })
       }
-
-
-      
-      
     </div>
   )
 }
 
-export default ReceivedEmailList
+export default SentEmailList

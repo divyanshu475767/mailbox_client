@@ -5,9 +5,10 @@
     background-color: #fff;
     box-shadow: 0 0 10px rgba(84, 11, 11, 0.1);
     margin-left: 25vw;
-    width: 70vw;
     margin-top: 100px;
     height: 70vh;
+    width: 70vw;
+
   }
 
 
@@ -17,4 +18,8 @@
   }
   
 
+  .content-inner{
+    margin-top: 20px;
+  }
+  
   
